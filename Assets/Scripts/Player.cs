@@ -22,18 +22,33 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Moving();
+    }
+
+    void Moving()
+    {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float move = horizontalInput * _movingSpeed;
         _isGrounded = IsGrounded();
 
-        if(_isGrounded)
+        if (_isGrounded)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
             }
         }
-       
+
+        //if Player is jumping, ignore collision
+        if (_rb.velocity.y > 0)
+        {
+            Physics2D.IgnoreLayerCollision(9, 8, true);
+        }
+        else
+        {
+            Physics2D.IgnoreLayerCollision(9, 8, false);
+        }
+
         _rb.velocity = new Vector2(move, _rb.velocity.y);
     }
 
