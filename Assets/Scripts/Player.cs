@@ -8,8 +8,10 @@ public class Player : MonoBehaviour
     private float _movingSpeed = 3f;
     [SerializeField]
     private float _jumpForce = 5f;
+    [SerializeField]
+    private float _doubleJumpForce = 1.2f;
 
-    private bool _isGrounded;
+    private bool _isGrounded, _hasDoubleJumped;
 
     private Rigidbody2D _rb;
     
@@ -31,11 +33,16 @@ public class Player : MonoBehaviour
         float move = horizontalInput * _movingSpeed;
         _isGrounded = IsGrounded();
 
-        if (_isGrounded)
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if(_isGrounded)
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+            }
+            else if(!_isGrounded && !_hasDoubleJumped)
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce * _doubleJumpForce);
+                _hasDoubleJumped = true;
             }
         }
 
@@ -57,6 +64,7 @@ public class Player : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, 1 << 8);
         if(hit.collider != null) //if Player is actually hit something
         {
+            _hasDoubleJumped = false;
             return true;
         }
         return false;
