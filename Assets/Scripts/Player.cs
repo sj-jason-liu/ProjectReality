@@ -61,8 +61,9 @@ public class Player : MonoBehaviour
 
     bool IsGrounded() //check if Player is on the ground
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, 1 << 8);
-        if(hit.collider != null) //if Player is actually hit something
+        RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, 1 << 8);
+        RaycastHit2D platformHit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, 1 << 10);
+        if (groundHit.collider != null || platformHit.collider != null) //if Player is actually hit something
         {
             _hasDoubleJumped = false;
             return true;
