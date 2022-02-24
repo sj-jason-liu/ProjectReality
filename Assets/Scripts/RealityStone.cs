@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class RealityStone : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private float _timeToVirtual = 7f;
 
-    // Update is called once per frame
-    void Update()
+    private SpriteRenderer _renderer;
+    private CircleCollider2D _collider;
+
+    private void Start()
     {
-        
+        _renderer = GetComponent<SpriteRenderer>();
+        if(_renderer == null)
+        {
+            Debug.LogError("SpriteRenderer is NULL!");
+        }
+        _collider = GetComponent<CircleCollider2D>();
+        if(_collider == null)
+        {
+            Debug.LogError("CircleCollider is NULL!");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,16 +29,17 @@ public class RealityStone : MonoBehaviour
         if(collision.tag == "Player")
         {
             GameManager.Instance.ShowReality();
-            //destroy stone
-            //set coroutine to return virtual after 10 second
+            _renderer.enabled = false;
+            _collider.enabled = false;
+            UIManager.Instance.StartCountdown();
+            StartCoroutine(BackToVirtual());
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    IEnumerator BackToVirtual()
     {
-        if (collision.tag == "Player")
-        {
-            GameManager.Instance.DisableReality();
-        }
+        yield return new WaitForSeconds(_timeToVirtual);
+        GameManager.Instance.DisableReality();
+        Destroy(gameObject); //destroy stone
     }
 }
