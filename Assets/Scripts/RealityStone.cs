@@ -31,7 +31,7 @@ public class RealityStone : MonoBehaviour
             GameManager.Instance.ShowReality();
             _renderer.enabled = false;
             _collider.enabled = false;
-            UIManager.Instance.StartCountdown();
+            UIManager.Instance.StartCountdown(_timeToVirtual);
             StartCoroutine(BackToVirtual());
         }
     }

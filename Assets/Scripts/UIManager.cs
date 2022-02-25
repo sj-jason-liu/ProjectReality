@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private float _timeToCountdown = 7f;
+    private float _countdownTimeFromRealityStone;
 
     private bool _isTimerGoing = false;
 
@@ -46,19 +47,22 @@ public class UIManager : MonoBehaviour
             {
                 _timeToCountdown = 0;
                 _isTimerGoing = false;
+                _timerText.text = _timeToCountdown + ":000";
                 //call the method that decrease the gradient of timer
             }
         }
     }
 
-    public void StartCountdown()
+    public void StartCountdown(float timesFromStone)
     {
+        _countdownTimeFromRealityStone = timesFromStone;
+        _timeToCountdown = _countdownTimeFromRealityStone;
         _isTimerGoing = true;
     }
 
     void CountdownTimer(float timeLeft)
     {
-        timeLeft += 1;
+        //timeLeft += 1;
 
         float seconds = Mathf.FloorToInt(timeLeft % 60);
         float milliSeconds = (timeLeft % 1) * 1000;
