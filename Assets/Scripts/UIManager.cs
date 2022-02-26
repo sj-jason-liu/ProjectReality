@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Text _timerText;
+    [SerializeField]
+    private Image _textBackground;
 
     private void Awake()
     {
@@ -49,6 +51,33 @@ public class UIManager : MonoBehaviour
                 _isTimerGoing = false;
                 _timerText.text = _timeToCountdown + ":000";
                 //call the method that decrease the gradient of timer
+            }
+        }
+    }
+
+    public void StoneActivation(bool StoneStatus)
+    {
+        StartCoroutine(FadingAlpha(StoneStatus));
+    }
+    
+    IEnumerator FadingAlpha(bool isActivated)
+    {
+        if(isActivated)
+        {
+            for(float i = 0; i <= 1; i += Time.deltaTime)
+            {
+                _textBackground.color = new Color(1, 1, 1, i);
+                _timerText.color = new Color(0, 0, 0, i);
+                yield return null;
+            }
+        }
+        else
+        {
+            for(float i = 1; i >= 0; i -= Time.deltaTime)
+            {
+                _textBackground.color = new Color(1, 1, 1, i);
+                _timerText.color = new Color(0, 0, 0, i);
+                yield return null;
             }
         }
     }

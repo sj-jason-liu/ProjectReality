@@ -29,6 +29,7 @@ public class RealityStone : MonoBehaviour
         if(collision.tag == "Player")
         {
             GameManager.Instance.ShowReality();
+            UIManager.Instance.StoneActivation(true);
             _renderer.enabled = false;
             _collider.enabled = false;
             UIManager.Instance.StartCountdown(_timeToVirtual);
@@ -39,6 +40,7 @@ public class RealityStone : MonoBehaviour
     IEnumerator BackToVirtual()
     {
         yield return new WaitForSeconds(_timeToVirtual);
+        UIManager.Instance.StoneActivation(false);
         GameManager.Instance.DisableReality();
         Destroy(gameObject); //destroy stone
     }
