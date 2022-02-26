@@ -40,8 +40,6 @@ public class UIManager : MonoBehaviour
         {
             if (_timeToCountdown > 0)
             {
-                Debug.Log("Timer started");
-                //call the method that increase the gradient of timer
                 _timeToCountdown -= Time.deltaTime;
                 CountdownTimer(_timeToCountdown);
             }
@@ -50,7 +48,6 @@ public class UIManager : MonoBehaviour
                 _timeToCountdown = 0;
                 _isTimerGoing = false;
                 _timerText.text = _timeToCountdown + ":000";
-                //call the method that decrease the gradient of timer
             }
         }
     }
@@ -97,15 +94,5 @@ public class UIManager : MonoBehaviour
         float milliSeconds = (timeLeft % 1) * 1000;
 
         _timerText.text = string.Format("{0:0}:{1:000}", seconds, milliSeconds);
-    }
-
-    void AppearTimer()
-    {
-        //method to appear timer when reality stone activated
-    }
-
-    void DisappearTimer()
-    {
-        //method to disppear timer
     }
 }
