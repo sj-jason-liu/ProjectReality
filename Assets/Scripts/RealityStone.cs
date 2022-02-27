@@ -22,18 +22,23 @@ public class RealityStone : MonoBehaviour
         {
             Debug.LogError("CircleCollider is NULL!");
         }
+        GameManager.Instance.HasCollectedStone = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
         {
-            GameManager.Instance.ShowReality();
-            UIManager.Instance.StoneActivation(true);
-            _renderer.enabled = false;
-            _collider.enabled = false;
-            UIManager.Instance.StartCountdown(_timeToVirtual);
-            StartCoroutine(BackToVirtual());
+            if(!GameManager.Instance.HasCollectedStone)
+            {
+                GameManager.Instance.HasCollectedStone = true;
+                GameManager.Instance.ShowReality();
+                UIManager.Instance.StoneActivation(true);
+                _renderer.enabled = false;
+                _collider.enabled = false;
+                UIManager.Instance.StartCountdown(_timeToVirtual);
+                StartCoroutine(BackToVirtual());
+            }          
         }
     }
 
@@ -42,6 +47,7 @@ public class RealityStone : MonoBehaviour
         yield return new WaitForSeconds(_timeToVirtual);
         UIManager.Instance.StoneActivation(false);
         GameManager.Instance.DisableReality();
+        GameManager.Instance.HasCollectedStone = false;
         Destroy(gameObject); //destroy stone
     }
 }

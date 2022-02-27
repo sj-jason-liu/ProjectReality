@@ -52,4 +52,6 @@ public class GameManager : MonoBehaviour
         _realityGround.SetActive(false);
         _realityPlatform.SetActive(false);
     }
+
+    public bool HasCollectedStone { get; set; }
 }

@@ -14,11 +14,35 @@ public class Player : MonoBehaviour
     private bool _isGrounded, _hasDoubleJumped;
 
     private Rigidbody2D _rb;
+
+    private SpriteRenderer _sprite;
+
+    private PlayerAnimation _playerAnim;
     
     // Start is called before the first frame update
     void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();   
+        _rb = GetComponent<Rigidbody2D>();
+        {
+            if(_rb == null)
+            {
+                Debug.LogError("Rigidbody is NULL!");
+            }
+        }
+        _sprite = GetComponentInChildren<SpriteRenderer>();
+        {
+            if(_sprite == null)
+            {
+                Debug.LogError("Sprite is NULL!");
+            }
+        }
+        _playerAnim = GetComponentInChildren<PlayerAnimation>();
+        {
+            if(_playerAnim == null)
+            {
+                Debug.LogError("Player Animation is NULL!");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -31,7 +55,10 @@ public class Player : MonoBehaviour
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float move = horizontalInput * _movingSpeed;
+        _playerAnim.Move(horizontalInput);
         _isGrounded = IsGrounded();
+
+        Flip(horizontalInput);
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -69,5 +96,17 @@ public class Player : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    void Flip(float facing)
+    {
+        if(facing < 0)
+        {
+            _sprite.transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if(facing > 0)
+        {
+            _sprite.transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 }
