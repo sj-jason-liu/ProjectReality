@@ -7,7 +7,19 @@ public class Opening : MonoBehaviour
 {
     public void StartGame()
     {
-        int currentIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentIndex + 1);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            //int currentIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(1);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //int currentIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(1);
+        }
     }
 }
